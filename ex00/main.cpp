@@ -5,5 +5,5 @@
 #include "ScalarConverter.hpp"
 
 int	main() {
-	ScalarConverter::convert("125.retytg");
+	ScalarConverter::convert("17.45");
 }
