@@ -16,15 +16,6 @@ class ScalarConverter {
 		static void	convert(const std::string& string);
 
 	private:
-
-		enum	Type {
-			CHAR = 1,
-			INT = 2,
-			FLOAT = 3,
-			DOUBLE  = 4,
-			ERROR = 5
-		};
-
 		ScalarConverter();
 
 		static int		getInteger(const std::string& string);
@@ -42,4 +33,4 @@ class ScalarConverter {
 		static int		strLength(const std::string& string);
 };
 
-#endif //SCALARCONVERTER_HPP
+#endif
