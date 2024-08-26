@@ -11,4 +11,5 @@ int	main() {
 	uintptr_t serialized = Serializer::serialize(data);
 	Data* deserialized = Serializer::deserialize(serialized);
 	std::cout << deserialized << std::endl;
+	delete data;
 }

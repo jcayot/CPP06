@@ -7,9 +7,11 @@
 
 # include <string>
 # include <stdexcept>
-# include <math.h>
+# include <cmath>
 # include <iomanip>
 # include <iostream>
+# include <climits>
+# include <cfloat>
 
 class ScalarConverter {
 	public:
@@ -19,13 +21,13 @@ class ScalarConverter {
 		ScalarConverter();
 
 		static int		getInteger(const std::string& string);
-		static float	getFloat(const std::string& string);
-		static double	getDouble(const std::string& string);
+		static float	getFloat(const std::string& string, int& precision);
+		static double	getDouble(const std::string& string, int& precision);
 		static char		getChar(const std::string& string);
 
 		static void		displayInteger(const int& value);
-		static void		displayFloat(const float& value);
-		static void		displayDouble(const double& value);
+		static void		displayFloat(const float& value, const int& precision);
+		static void		displayDouble(const double& value, const int& precision);
 		static void		displayChar(const char& value);
 
 

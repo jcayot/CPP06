@@ -6,33 +6,43 @@
 
 void ScalarConverter::convert(const std::string& string) {
 	try {
-		char charString = getChar(string);
+		char	charString = getChar(string);
+
 		displayChar(charString);
-		return;
-	} catch (const std::invalid_argument& e) {
 
-	}
+		return;
+	} catch (const std::exception&) {}
 	try {
-		int intString = getInteger(string);
+		int	intString = getInteger(string);
+
 		displayInteger(intString);
-		return;
-	} catch (const std::invalid_argument& e) {
 
-	}
+		return;
+	} catch (const std::exception&) {}
 	try {
-		float floatString = getFloat(string);
-		displayFloat(floatString);
-		return;
-	} catch (const std::invalid_argument& e) {
+		int		precision = 0;
+		float	floatString = getFloat(string, precision);
+		if (precision == 0)
+			precision++;
 
-	}
+		displayFloat(floatString, precision);
+
+		return;
+	} catch (const std::exception&) {}
 	try {
-		double doubleString = getDouble(string);
-		displayDouble(doubleString);
-		return;
-	} catch (const std::invalid_argument& e) {
+		int		precision = 0;
+		double	doubleString = getDouble(string, precision);
+		if (precision == 0)
+			precision++;
 
-	}
+		displayDouble(doubleString, precision);
+
+		return;
+	} catch (const std::exception&) {}
+	std::cout << "char: impossible" << std::endl;
+	std::cout << "integer: impossible" << std::endl;
+	std::cout << "float: impossible" << std::endl;
+	std::cout << "double: impossible" << std::endl;
 }
 
 int ScalarConverter::getInteger(const std::string& string) {
@@ -44,7 +54,7 @@ int ScalarConverter::getInteger(const std::string& string) {
 	return (num);
 }
 
-float ScalarConverter::getFloat(const std::string& string) {
+float ScalarConverter::getFloat(const std::string& string, int& precision) {
 	float	num = std::stof(string);
 	int		dotNum = 0;
 
@@ -54,33 +64,43 @@ float ScalarConverter::getFloat(const std::string& string) {
 		throw std::invalid_argument("Invalid argument");
 
 	for (int i = 1; i < strLength(string) - 1; i++) {
-		if (string[i] == '.')
+		if (string[i] == '.') {
 			dotNum++;
-		else if (string[i] < '0' || string[i] > '9')
+			continue ;
+		}
+		if (dotNum == 1)
+			precision++;
+		if (string[i] < '0' || string[i] > '9')
 			throw std::invalid_argument("Invalid argument");
 	}
 
-	if (string[string.length() - 1] != 'f' || dotNum > 1)
+	if (string[strLength(string) - 1] != 'f' || dotNum != 1)
 		throw std::invalid_argument("Invalid argument");
 
 	return (num);
 }
 
-double ScalarConverter::getDouble(const std::string& string) {
+double ScalarConverter::getDouble(const std::string& string, int& precision) {
 	double	num = std::stod(string);
 	int		dotNum = 0;
 
-	if (isinf(num) || isnan(num))
+	if (isinfl(num) || isnanl(num))
 		return (num);
 	if (string[0] < '0' || string[0] > '9')
 		throw std::invalid_argument("Invalid argument");
 
 	for (int i = 1; i < strLength(string); i++) {
-		if (string[i] == '.')
+		if (string[i] == '.') {
 			dotNum++;
-		else if (string[i] < '0' || string[i] > '9')
+			continue ;
+		}
+		if (dotNum == 1)
+			precision++;
+		if (string[i] < '0' || string[i] > '9')
 			throw std::invalid_argument("Invalid argument");
 	}
+	if (dotNum != 1)
+		throw std::invalid_argument("Invalid argument");
 	return (num);
 }
 
@@ -97,24 +117,36 @@ void ScalarConverter::displayInteger(const int& value) {
 	std::cout << "double: " << std::fixed << std::setprecision(1) << static_cast<double>(value) << std::endl;
 }
 
-void ScalarConverter::displayFloat(const float& value) {
+void ScalarConverter::displayFloat(const float& value, const int& precision) {
 	std::cout << "char: impossible" << std::endl;
+
 	if (isinff(value))
 		std::cout << "int: impossible" << std::endl;
+	else if (value > static_cast<float>(INT_MAX) || value < static_cast<float>(INT_MIN))
+		std::cout << "int: overflow" << std::endl;
 	else
 		std::cout << "int: " << static_cast<int>(value) << std::endl;
-	std::cout << "float: " << std::fixed << value << "f" << std::endl;
-	std::cout << "double: " << std::fixed << static_cast<double>(value) << std::endl;
+
+	std::cout << "float: " << std::fixed << std::setprecision(precision) << value << "f" << std::endl;
+	std::cout << "double: " << std::fixed << std::setprecision(precision) << static_cast<double>(value) << std::endl;
 }
 
-void ScalarConverter::displayDouble(const double& value) {
+void ScalarConverter::displayDouble(const double& value, const int& precision) {
 	std::cout << "char: impossible" << std::endl;
-	if (isinf(value) || isnan(value))
+
+	if (isinfl(value) != 0 || isnanl(value))
 		std::cout << "int: impossible" << std::endl;
+	else if (value > static_cast<double>(INT_MAX) || value < static_cast<double>(INT_MIN))
+		std::cout << "int: overflow" << std::endl;
 	else
 		std::cout << "int: " << static_cast<int>(value) << std::endl;
-	std::cout << "float: " << std::fixed << static_cast<float>(value) << "f" << std::endl;
-	std::cout << "double: " << std::fixed << value << std::endl;
+
+	if (value > static_cast<double>(FLT_MAX) || value < static_cast<double>(FLT_MIN))
+		std::cout << "float: overflow" << std::endl;
+	else
+		std::cout << "float: " << std::fixed << std::setprecision(precision) << static_cast<float>(value) << "f" << std::endl;
+
+	std::cout << "double: " << std::fixed << std::setprecision(precision) << value << std::endl;
 }
 
 void ScalarConverter::displayChar(const char& value) {
