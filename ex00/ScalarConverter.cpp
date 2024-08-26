@@ -22,8 +22,6 @@ void ScalarConverter::convert(const std::string& string) {
 	try {
 		int		precision = 0;
 		float	floatString = getFloat(string, precision);
-		if (precision == 0)
-			precision++;
 
 		displayFloat(floatString, precision);
 
@@ -32,8 +30,6 @@ void ScalarConverter::convert(const std::string& string) {
 	try {
 		int		precision = 0;
 		double	doubleString = getDouble(string, precision);
-		if (precision == 0)
-			precision++;
 
 		displayDouble(doubleString, precision);
 
@@ -117,7 +113,9 @@ void ScalarConverter::displayInteger(const int& value) {
 	std::cout << "double: " << std::fixed << std::setprecision(1) << static_cast<double>(value) << std::endl;
 }
 
-void ScalarConverter::displayFloat(const float& value, const int& precision) {
+void ScalarConverter::displayFloat(const float& value, int& precision) {
+	if (precision == 0)
+		precision++;
 	std::cout << "char: impossible" << std::endl;
 
 	if (isinff(value))
@@ -131,7 +129,9 @@ void ScalarConverter::displayFloat(const float& value, const int& precision) {
 	std::cout << "double: " << std::fixed << std::setprecision(precision) << static_cast<double>(value) << std::endl;
 }
 
-void ScalarConverter::displayDouble(const double& value, const int& precision) {
+void ScalarConverter::displayDouble(const double& value, int& precision) {
+	if (precision == 0)
+		precision++;
 	std::cout << "char: impossible" << std::endl;
 
 	if (isinfl(value) != 0 || isnanl(value))

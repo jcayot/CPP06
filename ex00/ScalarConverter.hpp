@@ -26,8 +26,8 @@ class ScalarConverter {
 		static char		getChar(const std::string& string);
 
 		static void		displayInteger(const int& value);
-		static void		displayFloat(const float& value, const int& precision);
-		static void		displayDouble(const double& value, const int& precision);
+		static void		displayFloat(const float& value, int& precision);
+		static void		displayDouble(const double& value, int& precision);
 		static void		displayChar(const char& value);
 
 
