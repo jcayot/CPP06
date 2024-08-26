@@ -19,6 +19,10 @@ class ScalarConverter {
 
 	private:
 		ScalarConverter();
+		ScalarConverter(const ScalarConverter&);
+		~ScalarConverter();
+
+		ScalarConverter& operator=(const ScalarConverter&);
 
 		static int		getInteger(const std::string& string);
 		static float	getFloat(const std::string& string, int& precision);

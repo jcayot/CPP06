@@ -18,7 +18,10 @@ class Utils {
 		static void		identify(Base& base);
 
 	private:
-		Utils() {}
+		Utils();
+		Utils(Utils const&);
+		~Utils();
+		Utils& operator=(Utils const&);
 };
 
 
