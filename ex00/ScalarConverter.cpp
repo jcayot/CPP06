@@ -5,6 +5,19 @@
 #include "ScalarConverter.hpp"
 
 void ScalarConverter::convert(const std::string& string) {
+	if (strEqual(string, "nan") || strEqual(string, "-inf") || strEqual(string, "+inf")) {
+		std::cout << "char: impossible" << std::endl;
+		std::cout << "integer: impossible" << std::endl;
+		std::cout << "float: " << string << "f" << std::endl;
+		std::cout << "double: " << string << std::endl;
+		return ;
+	}
+	if (strEqual(string, "-inff") || strEqual(string, "+inff")) {
+		std::cout << "char: impossible" << std::endl;
+		std::cout << "integer: impossible" << std::endl;
+		std::cout << "float: " << string << std::endl;
+		std::cout << "double: " << string[0] << "inf" << std::endl;
+	}
 	try {
 		char	charString = getChar(string);
 
@@ -54,8 +67,6 @@ float ScalarConverter::getFloat(const std::string& string, int& precision) {
 	float	num = std::stof(string);
 	int		dotNum = 0;
 
-	if (isinff(num))
-		return (num);
 	if (string[0] < '0' || string[0] > '9')
 		throw std::invalid_argument("Invalid argument");
 
@@ -80,8 +91,6 @@ double ScalarConverter::getDouble(const std::string& string, int& precision) {
 	double	num = std::stod(string);
 	int		dotNum = 0;
 
-	if (isinfl(num) || isnanl(num))
-		return (num);
 	if (string[0] < '0' || string[0] > '9')
 		throw std::invalid_argument("Invalid argument");
 
@@ -177,4 +186,12 @@ int ScalarConverter::strLength(const std::string& string) {
 	while (string[length] != 0)
 		length++;
 	return (length);
+}
+
+bool ScalarConverter::strEqual(const std::string& string1, const std::string& string2) {
+	int	i = 0;
+
+	while (string1[i] && string2[i] && string1[i] == string2[i])
+		i++;
+	return (string1[i] == string2[i]);
 }
