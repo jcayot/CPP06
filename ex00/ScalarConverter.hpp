@@ -37,7 +37,6 @@ class ScalarConverter {
 
 		static int		intLength(int number);
 		static int		strLength(const std::string& string);
-		static	bool	strEqual(const std::string& string1, const std::string& string2);
 };
 
 #endif
